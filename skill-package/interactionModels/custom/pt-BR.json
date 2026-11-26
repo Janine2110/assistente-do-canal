@@ -1,0 +1,194 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "assistente do canal",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.YesIntent",
+          "samples": [
+            "isso",
+            "isso mesmo",
+            "isso aí",
+            "é isso",
+            "pode",
+            "pode sim",
+            "pode ser",
+            "confirmo",
+            "confirma",
+            "beleza",
+            "certo",
+            "exato",
+            "claro",
+            "é",
+            "sim pode"
+          ]
+        },
+        {
+          "name": "AMAZON.NoIntent",
+          "samples": [
+            "não é isso",
+            "cancela",
+            "deixa",
+            "deixa pra lá",
+            "esquece",
+            "nada disso",
+            "errado",
+            "não pode"
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "FalarIntent",
+          "slots": [
+            {
+              "name": "frase",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "manda {frase}",
+            "mandar {frase}",
+            "agora manda {frase}",
+            "fala {frase}",
+            "falar {frase}",
+            "escreve {frase}",
+            "escrever {frase}",
+            "digita {frase}",
+            "digitar {frase}",
+            "diz {frase}",
+            "dizer {frase}"
+          ]
+        },
+        {
+          "name": "DarIntent",
+          "slots": [
+            {
+              "name": "frase",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "dá {frase}",
+            "dar {frase}",
+            "agora dá {frase}",
+            "aplica {frase}",
+            "silencia {frase}",
+            "castiga {frase}",
+            "da {frase}",
+            "dá um {frase}",
+            "agora da {frase}",
+            "muta {frase}",
+            "mutar {frase}",
+            "silenciar {frase}",
+            "darth {frase}",
+            "agora silencia {frase}"
+          ]
+        },
+        {
+          "name": "TirarIntent",
+          "slots": [
+            {
+              "name": "frase",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "tira {frase}",
+            "tirar {frase}",
+            "agora tira {frase}",
+            "remove {frase}",
+            "remover {frase}",
+            "libera {frase}",
+            "liberar {frase}",
+            "desfaz {frase}",
+            "perdoa {frase}",
+            "desmuta {frase}",
+            "desmutar {frase}",
+            "agora libera {frase}"
+          ]
+        },
+        {
+          "name": "ComandoIntent",
+          "slots": [
+            {
+              "name": "frase",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "comando {frase}",
+            "faz {frase}",
+            "fazer {frase}",
+            "quero {frase}",
+            "pode {frase}",
+            "por favor {frase}",
+            "pode por favor {frase}",
+            "agora {frase}",
+            "ei {frase}"
+          ]
+        },
+        {
+          "name": "BanirIntent",
+          "slots": [
+            {
+              "name": "frase",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "banir {frase}",
+            "bane {frase}",
+            "bloquear {frase}",
+            "bloqueia {frase}",
+            "expulsar {frase}",
+            "expulsa {frase}",
+            "suspender {frase}",
+            "suspende {frase}",
+            "castigar {frase}",
+            "punir {frase}",
+            "pune {frase}",
+            "agora bane {frase}"
+          ]
+        },
+        {
+          "name": "DesbanirIntent",
+          "slots": [
+            {
+              "name": "frase",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "desbanir {frase}",
+            "desbane {frase}",
+            "desbloquear {frase}",
+            "desbloqueia {frase}",
+            "perdoar {frase}",
+            "desfazer {frase}",
+            "agora desbane {frase}"
+          ]
+        }
+      ],
+      "types": []
+    }
+  }
+}
