@@ -1,0 +1,7 @@
+lambda/config.py
+.env
+__pycache__/
+*.pyc
+*.zip
+.ask/
+.vscode/
