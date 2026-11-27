@@ -26,18 +26,7 @@ Não existem palavras-chave fixas: uma IA interpreta a frase e transforma o pedi
 
 ## 2. Arquitetura e fluxo de funcionamento
 
-```mermaid
-flowchart LR
-    A["Streamer fala com a Echo Dot"] -->|"áudio via HTTPS"| B["Nuvem da Alexa<br/>voz → texto + intent"]
-    B -->|"evento JSON<br/>(Alexa Skills Kit)"| C["AWS Lambda<br/>Python"]
-    C -->|"HTTPS · REST · JSON<br/>Bearer"| D["Groq<br/>IA (LLM)"]
-    D -->|"JSON com a ação"| C
-    C -->|"HTTPS · REST<br/>OAuth 2.0"| E["API Helix da Twitch"]
-    E -->|"chat atualizado"| F["Chat da live"]
-    C -->|"resposta JSON"| B
-    B -->|"fala a confirmação"| A
-    C -.->|"logs"| G["CloudWatch"]
-```
+![Diagrama da arquitetura: o streamer fala com a Echo Dot, a nuvem da Alexa converte a voz em texto e envia um evento JSON para a AWS Lambda, que consulta a IA na Groq por HTTPS e executa a ação na API da Twitch com OAuth 2.0; a resposta volta para a Alexa e os logs vão para o CloudWatch](docs/arquitetura.png)
 
 ### Gatilho → Processamento → Saída
 
@@ -74,14 +63,14 @@ flowchart LR
 - Respostas 4xx/5xx são verificadas com `raise_for_status()` e registradas no log com o corpo do erro.
 - Quando a Twitch responde **401**, o token é renovado com o refresh token e a chamada é repetida uma vez.
 - Os erros mais comuns viram respostas faladas, em vez de silêncio: usuário já de castigo, mensagem repetida, usuário inexistente, token expirado, Twitch fora do ar ou demorando, IA fora do ar ou demorando.
-- Se faltar alguma credencial no `.env`, o problema é registrado no log logo que a função inicia.
+- Se faltar alguma credencial, o problema é registrado no log logo que a função inicia.
 
 ### Segurança
 
 - A IA só interpreta a frase. Quem valida e executa é o código.
 - O código confere se o usuário escolhido pela IA foi realmente falado, para não punir a pessoa errada.
 - Não existe ban permanente, só timeout com limite.
-- As credenciais ficam no arquivo `.env`, que está no `.gitignore`. O repositório traz apenas o `.env.example`.
+- As credenciais ficam no arquivo `lambda/config.py`, que está no `.gitignore`. O repositório traz apenas o modelo `config_exemplo.py`.
 
 ## 3. Tecnologias e APIs utilizadas
 
@@ -90,7 +79,7 @@ flowchart LR
 | **Python 3** | Linguagem da automação |
 | `ask-sdk-core` | SDK da Alexa: recebe o evento e monta a resposta falada |
 | `requests` | Requisições HTTPS para a Twitch e para a Groq |
-| `python-dotenv` | Carrega as credenciais do arquivo `.env` |
+| `python-dotenv` | Permite ler as credenciais também de um arquivo `.env`, se ele existir |
 | `concurrent.futures`, `difflib`, `json`, `re` | Chamadas em paralelo, comparação de nomes e tratamento do JSON |
 | **Alexa Skills Kit** | Reconhecimento de voz, modelo de interação em pt-BR e gatilho por evento |
 | **AWS Lambda** (Alexa-hosted) | Onde o código roda |
@@ -109,7 +98,7 @@ Endpoints da Twitch usados: `GET /users`, `GET /chat/chatters`, `GET /moderation
 | 1. Motor de automação em Python | `lambda/lambda_function.py`, com requisições HTTP via `requests` |
 | 2. Múltiplas integrações em rede | Alexa Skills Kit + API da Twitch + API da Groq, todas por HTTPS |
 | 3. Transformação de dados estruturados | JSON da Alexa → JSON da IA → validações `if/else` → payload da Twitch |
-| 4. Autenticação e credenciais | OAuth 2.0 (Twitch), Bearer (Groq), chaves no `.env` fora do Git |
+| 4. Autenticação e credenciais | OAuth 2.0 (Twitch), Bearer (Groq), chaves em `config.py` fora do Git |
 | 5. Gatilho e saída | Gatilho: comando de voz (evento da Alexa). Saída: ação no chat + resposta falada + log |
 | 6. Tratamento de erros | Timeouts, `raise_for_status`, renovação de token em 401, respostas faladas para cada falha |
 
@@ -152,17 +141,17 @@ Guarde o **User Access Token** e o **Refresh Token**.
 
 Em [console.groq.com](https://console.groq.com) → **API Keys** → **Create API Key**.
 
-**5. Configurar as variáveis de ambiente**
+**5. Configurar as credenciais**
 
-Copie `.env.example` para `lambda/.env` e preencha as cinco variáveis:
+Copie `lambda/config_exemplo.py` para `lambda/config.py` e preencha as cinco chaves:
 
 ```bash
-cp .env.example lambda/.env
+cp lambda/config_exemplo.py lambda/config.py
 ```
 
 **6. Publicar o código**
 
-Na aba **Code** da skill, substitua `lambda_function.py` e `requirements.txt` pelos arquivos da pasta `lambda/`, crie o arquivo `lambda/.env` com as suas chaves e clique em **Save** e **Deploy**. O código da skill Alexa-hosted fica privado na sua conta de desenvolvedor.
+Na aba **Code** da skill, substitua `lambda_function.py` e `requirements.txt` pelos arquivos da pasta `lambda/`, crie o arquivo `lambda/config.py` com as suas chaves e clique em **Save** e **Deploy**. O código da skill Alexa-hosted fica privado na sua conta de desenvolvedor.
 
 **7. Testar**
 
