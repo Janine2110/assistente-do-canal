@@ -201,7 +201,6 @@ Trecho real do log no CloudWatch, mostrando a frase entendida e o JSON gerado pe
 
 ## 6. Melhorias futuras (roadmap)
 
-- **Ban permanente com dupla confirmação**, falando o nome do usuário de novo antes de executar.
 - **Novos comandos de moderação:** modo lento, chat só para seguidores e mensagens fixadas.
 - **Histórico das ações de moderação** salvo num banco de dados, com um resumo no fim de cada live.
 
